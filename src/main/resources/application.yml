@@ -1,0 +1,51 @@
+application:
+  name: cloudslip-usermanagement
+  message: Welcome to cloudslip-usermanagement
+server:
+  port: 8081
+
+developer:
+  alias: ${DEVELOPER_ALIAS}
+
+spring:
+  application:
+    name: cloudslip-usermanagement
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      authentication-database: admin
+      username: mongoAdmin
+      password: abc123
+      database: cloudslip_usermanagement
+
+cloudslip:
+  kafka:
+    force-use: true
+    producer:
+      bootstrap-servers: 35.239.103.165:9092
+      client-id: ${spring.application.name}
+      compression-type: snappy
+      acks: 1
+      retries: 3
+      linger-ms: 1
+      batch-size: 16384
+      buffer-memory: 30080000
+      max-request-size: 30080000
+      request-timeout-ms: 60000
+    consumer:
+      bootstrap-servers: 35.239.103.165:9092
+      group-id: ${spring.application.name}
+      auto.offset.reset: earliest
+      enable.auto.commit: false
+
+env:
+  facade-service:
+    base-url: http://localhost:8080
+    api-access-token: c4167fea0829be75afb94cbaca7e05b590ea44683974f5ec93508bd1b32ed283mwJCSpcnAQ
+    connect-to-web-socket: false
+  pipeline-service:
+    base-url: http://localhost:9081
+  listener-service:
+    base-url: http://35.239.103.165:8020
+    api-access-token: af0901e6705a22a4314b7929a7c3ac792b46d385308d9b6399570b48e9bb13a6JxVqsd9CpJ

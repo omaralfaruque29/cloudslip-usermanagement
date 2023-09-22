@@ -1,0 +1,51 @@
+application:
+  name: cloudslip-usermanagement
+  message: Welcome to cloudslip-usermanagement
+server:
+  port: 8080
+
+developer:
+  alias: cloudslip
+
+spring:
+  application:
+    name: cloudslip-usermanagement
+  data:
+    mongodb:
+      host: ${MONGO_SERVER}
+      port: ${MONGO_PORT}
+      authentication-database: ${MONGO_AUTH_DATABASE}
+      username: ${MONGO_USERNAME}
+      password: ${MONGO_PASSWORD}
+      database: cloudslip_usermanagement
+
+cloudslip:
+  kafka:
+    force-use: false
+    producer:
+      bootstrap-servers: ${KAFKA_SERVER}:${KAFKA_PORT}
+      client-id: ${spring.application.name}
+      compression-type: snappy
+      acks: 1
+      retries: 3
+      linger-ms: 1
+      batch-size: 16384
+      buffer-memory: 30080000
+      max-request-size: 30080000
+      request-timeout-ms: 60000
+    consumer:
+      bootstrap-servers: ${KAFKA_SERVER}:${KAFKA_PORT}
+      group-id: ${spring.application.name}
+      auto.offset.reset: earliest
+      enable.auto.commit: false
+
+env:
+  facade-service:
+    base-url: http://${CLOUDSLIP_FACADE_SERVICE_NAME}/
+    api-access-token: ${CLOUDSLIP_FACADE_SERVICE_API_ACCESS_TOKEN}
+    connect-to-web-socket: ${CONNECT_TO_CLOUDSLIP_FACADE_WEB_SOCKET}
+  pipeline-service:
+    base-url: http://${CLOUDSLIP_PIPELINE_SERVICE_NAME}/
+  listener-service:
+    base-url: http://${CLOUDSLIP_LISTENER_SERVICE_NAME}/
+    api-access-token: ${CLOUDSLIP_LISTENER_SERVICE_API_ACCESS_TOKEN}
